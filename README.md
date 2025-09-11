@@ -1,71 +1,71 @@
 # 100% Multimodal Fusion
 
-## 结论
+## Conclusion
 
-WSG的融合方式可以消除对空间信息的重复关注/额外学习，在我们的微型实验上，达到比现有基于模型结构融合（拼接融合，早期输入层，中期编码器特征融合，后期潜空间融合），现有基于训练策略的融合（注意力机制，对比学习）都好的效果。
+WSG's fusion approach can eliminate redundant attention/extra learning on spatial information. In our micro-experiments, it achieves better performance than existing model-structure-based fusion methods (concatenation fusion, early input layer, middle encoder feature fusion, late latent space fusion) and existing training-strategy-based fusion methods (attention mechanism, contrastive learning).
 
-如果我们把先前的基于参数的方法的能力上限称之为各自的100%，我们的方法能在此基础上超越100%的融合上限。至少在微型实验上如此。
+If we define the capability upper limit of previous parameter-based methods as their respective 100%, our method can surpass this 100% fusion upper limit. At least in micro-experiments.
 
-## 实验摘要
+## Experimental Summary
 
-首先我们创建normal_input，normal_target，wsg_input，wsg_target这四个数据集。我们准备训练一个模型具有**特定通道反转能力**。
+First, we create four datasets: normal_input, normal_target, wsg_input, and wsg_target. We aim to train a model with **specific channel reversal capability**.
 
-- normal_input是300个256*256*1的npz，划分成三份，分别模拟通道123，分别赋值为123。然后对于normal_target，通道1的值从1变为3，通道2的值从2变成2，通道三的值从3变成一。
-- 然后创建wsg_input，它是100个256*256*3的npz，每个npz的通道123的值分别是123.然后wsg_target是反转后的结果，即321.
+- normal_input consists of 300 256×256×1 npz files, divided into three parts, simulating channels 1, 2, 3, with values 1, 2, 3 respectively. For normal_target, channel 1's value changes from 1 to 3, channel 2's value remains 2, and channel 3's value changes from 3 to 1.
+- wsg_input consists of 100 256×256×3 npz files, where each npz's channels 1, 2, 3 have values 1, 2, 3 respectively. wsg_target contains the reversed results, i.e., 3, 2, 1.
 
-然后我们使用常规的现有方法或者现有训练策略分别训练这个具有反转能力的模型。
+We then train models with reversal capability using conventional existing methods or training strategies.
 
-评估方法是当FID小于0.01时停止训练，记录各种信息。评估指标是：
+The evaluation method stops training when FID < 0.01 and records various information. Evaluation metrics are:
 
-1. **FID随epcoh的变化情况**（下降越快越好）
-2. **训练完成时间除以参数量** （越短越好，不过有些模型相同时间需要更多epoch,参数量的单位是1k）
-3. **训练完成时的epoch数量除以参数量**（越少越好，不过有些模型完成一个epoch的时间很久）
-4. **完成时间*训练的epoch数量/参数量** （越低越好，我们主要看这个，因为它相较前两个最合理）
+1. **FID change over epochs** (faster decrease is better)
+2. **Training completion time divided by parameters** (shorter is better, though some models need more epochs in the same time, parameter unit is 1k)
+3. **Number of epochs at completion divided by parameters** (fewer is better, though some models take longer per epoch)
+4. **Completion time × training epochs / parameters** (lower is better, this is our main metric as it's more reasonable than the previous two)
 
-## 模型结构
+## Model Architecture
 
-### 在模型结构上的融合
+### Fusion at Model Structure Level
 
-1. WSG Fusion - 数据层面上进行融合
-> 输入：3通道融合图像 → UNet → 输出：3通道
-> 特点：直接处理预融合数据，时空对应天然保持
+1. WSG Fusion - Data-level fusion
+> Input: 3-channel fused image → UNet → Output: 3 channels
+> Feature: Directly processes pre-fused data, naturally preserves temporal-spatial correspondence
 
-2. Early Fusion - 早期融合
-> 输入：3个通道 → [拼接] → UNet → 输出：3通道
-> 特点：在输入层就合并，之后统一处理
+2. Early Fusion
+> Input: 3 channels → [Concatenation] → UNet → Output: 3 channels
+> Feature: Merges at input layer, then processes uniformly
 
-3. Middle Fusion - 中期融合
-> 输入1 → Encoder1 ↘
-> 输入2 → Encoder2 → [特征融合] → Decoder → 输出
-> 输入3 → Encoder3 ↗
-> 特点：分别提取特征，在中间层融合
+3. Middle Fusion
+> Input1 → Encoder1 ↘
+> Input2 → Encoder2 → [Feature Fusion] → Decoder → Output
+> Input3 → Encoder3 ↗
+> Feature: Extracts features separately, fuses at middle layer
 
-4. Late Fusion - 晚期融合
-> 输入1 → 完整UNet1 → 输出1 ↘
-> 输入2 → 完整UNet2 → 输出2 → [拼接] → 输出
-> 输入3 → 完整UNet3 → 输出3 ↗
-> 特点：独立处理到最后才合并
+4. Late Fusion
+> Input1 → Complete UNet1 → Output1 ↘
+> Input2 → Complete UNet2 → Output2 → [Concatenation] → Output
+> Input3 → Complete UNet3 → Output3 ↗
+> Feature: Processes independently until final merge
 
-5. Concat Fusion - 拼接策略（通道混合）
-> 输入：3通道 → 1×1卷积混合 → UNet → 输出
-> 特点：简单的通道混合后处理
+5. Concat Fusion - Concatenation strategy (channel mixing)
+> Input: 3 channels → 1×1 convolution mixing → UNet → Output
+> Feature: Simple channel mixing followed by processing
 
-Note: 我们的方法和其余四种本身就是对比。
+Note: Our method is inherently compared against the other four.
 
-### 基于训练策略的融合
+### Training Strategy-based Fusion
 
-1. Attention Fusion - 注意力机制
-> 输入 → 通道注意力 → 空间注意力 → UNet → 输出
-> 特点：学习通道和空间的重要性权重
+1. Attention Fusion - Attention mechanism
+> Input → Channel attention → Spatial attention → UNet → Output
+> Feature: Learns channel and spatial importance weights
 
-2. Contrastive Fusion - 对比学习
-> 输入 → 分离 → 3个编码器 → 投影到共享空间 → 融合解码
-> 特点：类似CLIP，学习模态间的对应关系
+2. Contrastive Fusion - Contrastive learning
+> Input → Separation → 3 encoders → Projection to shared space → Fusion decoding
+> Feature: Similar to CLIP, learns correspondence between modalities
 
-Note:对于训练策略的融合，需要消融评估，输入分别是正常输入和wsg输入。
+Note: For training strategy fusion, ablation evaluation is needed with both normal input and WSG input.
 
-## 实验结果
+## Experimental Results
 
 
 
-代码在[this link]().
+Code available at [this link]().
