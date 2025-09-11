@@ -27,27 +27,27 @@ The evaluation method stops training when FID < 0.01 and records various informa
 ### Fusion at Model Structure Level
 
 1. WSG Fusion - Data-level fusion
-> Input: 3-channel fused image → UNet → Output: 3 channels
+> Input: 3-channel fused image → UNet → Output: 3 channels  
 > Feature: Directly processes pre-fused data, naturally preserves temporal-spatial correspondence
 
 2. Early Fusion
-> Input: 3 channels → [Concatenation] → UNet → Output: 3 channels
+> Input: 3 channels → [Concatenation] → UNet → Output: 3 channels  
 > Feature: Merges at input layer, then processes uniformly
 
 3. Middle Fusion
-> Input1 → Encoder1 ↘
-> Input2 → Encoder2 → [Feature Fusion] → Decoder → Output
-> Input3 → Encoder3 ↗
+> Input1 → Encoder1 ↘  
+> Input2 → Encoder2 → [Feature Fusion] → Decoder → Output  
+> Input3 → Encoder3 ↗  
 > Feature: Extracts features separately, fuses at middle layer
 
 4. Late Fusion
-> Input1 → Complete UNet1 → Output1 ↘
-> Input2 → Complete UNet2 → Output2 → [Concatenation] → Output
-> Input3 → Complete UNet3 → Output3 ↗
+> Input1 → Complete UNet1 → Output1 ↘  
+> Input2 → Complete UNet2 → Output2 → [Concatenation] → Output  
+> Input3 → Complete UNet3 → Output3 ↗  
 > Feature: Processes independently until final merge
 
 5. Concat Fusion - Concatenation strategy (channel mixing)
-> Input: 3 channels → 1×1 convolution mixing → UNet → Output
+> Input: 3 channels → 1×1 convolution mixing → UNet → Output  
 > Feature: Simple channel mixing followed by processing
 
 Note: Our method is inherently compared against the other four.
@@ -55,11 +55,11 @@ Note: Our method is inherently compared against the other four.
 ### Training Strategy-based Fusion
 
 1. Attention Fusion - Attention mechanism
-> Input → Channel attention → Spatial attention → UNet → Output
+> Input → Channel attention → Spatial attention → UNet → Output  
 > Feature: Learns channel and spatial importance weights
 
 2. Contrastive Fusion - Contrastive learning
-> Input → Separation → 3 encoders → Projection to shared space → Fusion decoding
+> Input → Separation → 3 encoders → Projection to shared space → Fusion decoding  
 > Feature: Similar to CLIP, learns correspondence between modalities
 
 Note: For training strategy fusion, ablation evaluation is needed with both normal input and WSG input.
