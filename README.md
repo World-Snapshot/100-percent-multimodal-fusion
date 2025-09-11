@@ -77,10 +77,10 @@ Note: For training strategy fusion, ablation evaluation is needed with both norm
 ### Key Findings
 
 - WSG methods consistently achieve better combined efficiency scores (lower is better)
-- The red-bordered chart shows the overall efficiency metric: (Time × Epochs) / Parameters
+- The red-bordered chart shows the overall efficiency metric: (Time × Epochs) / Per 1k Parameters
 - WSG's pre-fusion approach should be eliminates redundant spatial information learning
 
-## Additional Rough Estimate
+### Additional Rough Estimate
 
 Additionally, we recall that Overall Efficiency = (Training Time × Training Epochs) / Parameter Count × 1000
 Then in the ablation evaluation, we know that:
@@ -91,6 +91,6 @@ Then in the ablation evaluation, we know that:
 
 Their loading times are not included, and parameters are normalized, with identical architectures. There may be some millisecond-level errors, but simply put:
 
-WSG achieves a 100.5% improvement in training efficiency (improvement = ((36.1555 / 18.0348) - 1) × 100 = 100.5%), which means the efficiency is 2.005 times the original. (All other conditions are the same.)
+WSG achieves a 100.5% improvement in training efficiency (improvement = ((36.1555 / 18.0348) - 1) × 100 = 100.5%), which means the efficiency is 2.005 times the original (All other conditions/setup are the same).
 
 Code available at [this link](./100%25_multimodal_fusion.ipynb).
