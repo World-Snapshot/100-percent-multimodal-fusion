@@ -31,7 +31,7 @@ The evaluation method stops training when FID < 0.01 and records various informa
 > Feature: Directly processes pre-fused data, naturally preserves temporal-spatial correspondence
 
 2. Early Fusion
-> Input: 3 channels → [Concatenation] → UNet → Output: 3 channels  
+> Input: 3 channels → [Concat] → UNet → Output: 3 channels  
 > Feature: Merges at input layer, then processes uniformly
 
 3. Middle Fusion
@@ -42,7 +42,7 @@ The evaluation method stops training when FID < 0.01 and records various informa
 
 4. Late Fusion
 > Input1 → Complete UNet1 → Output1 ↘  
-> Input2 → Complete UNet2 → Output2 → [Concatenation] → Output  
+> Input2 → Complete UNet2 → Output2 → [Concat] → Output  
 > Input3 → Complete UNet3 → Output3 ↗  
 > Feature: Processes independently until final merge
 
@@ -65,5 +65,19 @@ Note: Our method is inherently compared against the other four.
 Note: For training strategy fusion, ablation evaluation is needed with both normal input and WSG input.
 
 ## Experimental Results
+
+### Performance Visualization
+
+![Stage-based Methods Analysis](./results/stage1.png)
+*Figure 1: Comparison of stage-based fusion methods (WSG, Early, Middle, Late, Concat)*
+
+![Strategy-based Methods Analysis](./results/stage2.png)
+*Figure 2: Comparison of strategy-based fusion methods (Attention, Contrastive, WSG+Attention, WSG+Contrastive)*
+
+### Key Findings
+
+- WSG methods consistently achieve better combined efficiency scores (lower is better)
+- The red-bordered chart shows the overall efficiency metric: (Time × Epochs) / Parameters
+- WSG's pre-fusion approach eliminates redundant spatial information learning
 
 Code available at [this link](./100%25_multimodal_fusion.ipynb).
