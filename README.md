@@ -78,7 +78,7 @@ Note: For training strategy fusion, ablation evaluation is needed with both norm
 
 - WSG methods consistently achieve better combined efficiency scores (lower is better)
 - The red-bordered chart shows the overall efficiency metric: (Time × Epochs) / Per 1k Parameters
-- WSG's pre-fusion approach should be eliminates redundant spatial information learning
+- WSG's pre-fusion approach should be eliminates redundant spatial information repeat learning
 
 ### Additional Rough Estimate
 
