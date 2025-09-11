@@ -4,7 +4,7 @@
 
 WSG's fusion approach can eliminate redundant attention/extra learning on spatial information. In our micro-experiments, it achieves better performance than existing model-structure-based fusion methods (concatenation fusion, early input layer, middle encoder feature fusion, late latent space fusion) and existing training-strategy-based fusion methods (attention mechanism, contrastive learning).
 
-If we define the capability upper limit of previous parameter-based methods as their respective 100%, our method can surpass this 100% fusion upper limit. At least in micro-experiments.
+If we define the capability upper limit of previous parameter-based methods as their respective 100%, our method can surpass this 100% fusion upper limit. At least in [micro-experiments](#experimental-results).
 
 ## Experimental Summary
 
@@ -78,6 +78,6 @@ Note: For training strategy fusion, ablation evaluation is needed with both norm
 
 - WSG methods consistently achieve better combined efficiency scores (lower is better)
 - The red-bordered chart shows the overall efficiency metric: (Time × Epochs) / Parameters
-- WSG's pre-fusion approach eliminates redundant spatial information learning
+- WSG's pre-fusion approach should be eliminates redundant spatial information learning
 
 Code available at [this link](./100%25_multimodal_fusion.ipynb).
