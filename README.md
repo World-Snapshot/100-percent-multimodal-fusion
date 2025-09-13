@@ -91,6 +91,8 @@ Then in the ablation evaluation, we know that:
 
 Their loading times are not included, and parameters are normalized, with identical architectures. There may be some millisecond-level errors, but simply put:
 
-WSG achieves a 100.5% improvement in training efficiency (improvement = ((36.1555 / 18.0348) - 1) × 100 = 100.5%), which means the efficiency is 2.005 times the original (All other conditions/setup are the same).
+WSG achieves a 100.5% improvement in training efficiency (improvement = ((36.1555 / 18.0348) - 1) × 100 = 100.5%), which means the efficiency is **2.005 times the original (All other conditions/setup are the same)**.
+
+The current model has not been thoroughly trained in modal fusion. This can accelerate the training process / achieve a perfect fusion in form, and is expected to enable the model to break through the limits of each of them.
 
 Code available at [this link](./100%25_multimodal_fusion.ipynb).
