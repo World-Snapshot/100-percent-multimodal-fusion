@@ -93,6 +93,6 @@ Their loading times are not included, and parameters are normalized, with identi
 
 WSG achieves a 100.5% improvement in training efficiency (improvement = ((36.1555 / 18.0348) - 1) × 100 = 100.5%), which means the efficiency is **2.005 times the original (All other conditions/setup are the same)**.
 
-The current model has not been thoroughly trained in modal fusion. This approach that can accelerate training and achieve perfect integration in form is expected to enable the models to break through their respective limits.
+The current model (e.g., big companies') has not been thoroughly trained in modal fusion. This approach that can accelerate training and achieve perfect integration in form is expected to enable the models to break through their respective limits.
 
 Code available at [this link](./100%25_multimodal_fusion.ipynb).
